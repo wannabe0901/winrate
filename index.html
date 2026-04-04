@@ -1,16 +1,10 @@
 <!--
 ==============================================
   Win Rate Co., Ltd. — WordPress Custom HTML Block
-  
-  【画像の差し替え方法】
-  各 src="YOUR_IMAGE_URL_HERE" を
-  WordPressメディアライブラリのURLに置き換えてください。
-  例: src="https://your-site.com/wp-content/uploads/2025/hero.jpg"
 ==============================================
 -->
 
 <style>
-/* ── スコープ付きCSS（WP他スタイルとの干渉防止） ── */
 #winrate-wrap *, #winrate-wrap *::before, #winrate-wrap *::after {
   box-sizing: border-box; margin: 0; padding: 0;
 }
@@ -29,8 +23,46 @@
   background: var(--wr-paper);
 }
 
-/* ── FONTS（WP環境で読み込まれない場合のフォールバック付き） ── */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@1,400;1,700&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400&display=swap');
+
+/* ── LANGUAGE SWITCHER ── */
+#winrate-wrap .wr-lang-switch {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+}
+#winrate-wrap .wr-lang-btn {
+  background: transparent;
+  border: 1px solid rgba(253,250,246,.3);
+  color: rgba(253,250,246,.6);
+  font-size: .68rem;
+  letter-spacing: .15em;
+  padding: .25rem .6rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+#winrate-wrap .wr-lang-btn.active {
+  border-color: var(--wr-gold);
+  color: var(--wr-gold);
+}
+#winrate-wrap .wr-lang-btn:hover {
+  border-color: var(--wr-gold-lt);
+  color: var(--wr-gold-lt);
+}
+
+/* 言語切り替え */
+#winrate-wrap [data-lang] { display: none; }
+#winrate-wrap.lang-en [data-lang="en"] { display: contents; }
+#winrate-wrap.lang-fr [data-lang="fr"] { display: contents; }
+#winrate-wrap.lang-en .wr-lang-en { display: inline; }
+#winrate-wrap.lang-fr .wr-lang-fr { display: inline; }
+.wr-lang-en, .wr-lang-fr { display: none; }
+
+/* ブロック要素の言語切り替え */
+#winrate-wrap [data-lang-block] { display: none; }
+#winrate-wrap.lang-en [data-lang-block="en"] { display: block; }
+#winrate-wrap.lang-fr [data-lang-block="fr"] { display: block; }
 
 /* ── HERO ── */
 #winrate-wrap .wr-hero {
@@ -45,12 +77,11 @@
   position: absolute; inset: 0; z-index: 0;
   background: linear-gradient(160deg, #1a1714 0%, #2e2620 55%, #3d3025 100%);
 }
-/* ヒーロー背景画像 */
 #winrate-wrap .wr-hero-bg-img {
   position: absolute; inset: 0; z-index: 1;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.35;  /* 画像の透明度：0〜1で調整 */
+  opacity: 0.35;
 }
 #winrate-wrap .wr-hero-overlay {
   position: absolute; inset: 0; z-index: 2;
@@ -93,13 +124,12 @@
   opacity: 0;
   animation: wr-fadeUp .9s .5s forwards;
 }
-/* ★ Playfair Display italicに変更 */
+/* ★ Japanese Traditionを他と同じフォントに統一 */
 #winrate-wrap .wr-hero-h1 em {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--wr-gold-lt);
-  letter-spacing: .01em;
 }
 #winrate-wrap .wr-hero-sub {
   font-size: 1rem;
@@ -130,22 +160,37 @@
   text-decoration: none;
 }
 
-/* ── NAV（WP固定ヘッダーと重複しないようstickyではなくhero内配置） ── */
+/* ── NAV ── */
 #winrate-wrap .wr-nav {
   position: absolute; top: 0; left: 0; right: 0; z-index: 10;
   display: flex; justify-content: space-between; align-items: center;
   padding: 1.6rem 4rem;
 }
+/* ★ ロゴ画像対応 */
 #winrate-wrap .wr-nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+#winrate-wrap .wr-nav-logo-img {
+  height: 36px; /* ロゴ画像の高さ：調整可能 */
+  width: auto;
+  display: block;
+}
+/* 画像が読み込めない場合のテキストフォールバック */
+#winrate-wrap .wr-nav-logo-text {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.3rem;
   letter-spacing: .12em;
-  /* ★ ヒーロー暗背景に映える白系に変更 */
   color: var(--wr-white);
-  text-decoration: none;
+  display: none; /* 画像がある場合は非表示 */
 }
+#winrate-wrap .wr-nav-logo-text span { color: var(--wr-gold); }
 #winrate-wrap .wr-nav-logo:hover { text-decoration: none; }
-#winrate-wrap .wr-nav-logo span { color: var(--wr-gold); }
+
+#winrate-wrap .wr-nav-right {
+  display: flex; align-items: center; gap: 2.5rem;
+}
 #winrate-wrap .wr-nav-links {
   display: flex; gap: 2.5rem; list-style: none;
 }
@@ -153,7 +198,6 @@
   font-size: .78rem;
   letter-spacing: .18em;
   text-transform: uppercase;
-  /* ★ 暗い背景に映える白系に変更 */
   color: rgba(253,250,246,.82);
   text-decoration: none;
   transition: color .2s;
@@ -208,7 +252,7 @@
 #winrate-wrap .wr-story-text p strong {
   color: var(--wr-ink); font-weight: 400;
 }
-/* ストーリービジュアル枠 */
+/* ★ ストーリービジュアル枠（画像挿入対応・復活） */
 #winrate-wrap .wr-story-visual {
   position: relative;
   aspect-ratio: 3/4;
@@ -219,37 +263,17 @@
   background: linear-gradient(160deg, #2e2620 0%, #1a1714 100%);
   z-index: 0;
 }
-/* ストーリー画像 */
 #winrate-wrap .wr-story-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   z-index: 1;
-  opacity: 0.7; /* 画像の透明度：0〜1で調整 */
-}
-#winrate-wrap .wr-story-kanji-dec {
-  position: absolute; inset: 0; z-index: 2;
-  display: flex; align-items: center; justify-content: center;
-  writing-mode: vertical-rl;
-  font-family: 'Noto Serif JP', serif;
-  font-weight: 200;
-  font-size: 6rem;
-  letter-spacing: .1em;
-  color: rgba(184,154,106,.15);
-  pointer-events: none;
+  opacity: 0.85;
 }
 #winrate-wrap .wr-story-border {
   position: absolute; inset: 1.2rem; z-index: 3;
   border: 1px solid rgba(184,154,106,.3);
   pointer-events: none;
-}
-#winrate-wrap .wr-story-tag {
-  position: absolute; bottom: 2rem; left: 2rem; z-index: 4;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.1rem;
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(184,154,106,.9);
 }
 
 /* ── PRODUCTS ── */
@@ -273,19 +297,16 @@
   transition: transform .6s ease;
   z-index: 0;
 }
-/* カードごとのフォールバックグラデーション */
 #winrate-wrap .card-matcha  .wr-card-img-wrap { background: linear-gradient(135deg, #2d4a2a 0%, #4a7a3d 40%, #6a9e5a 100%); }
 #winrate-wrap .card-wakocha .wr-card-img-wrap { background: linear-gradient(135deg, #5c3a1e 0%, #8b5a2b 40%, #c4874a 100%); }
 #winrate-wrap .card-anko   .wr-card-img-wrap { background: linear-gradient(135deg, #3d1a2a 0%, #6b2d3e 40%, #954055 100%); }
 #winrate-wrap .card-sake   .wr-card-img-wrap { background: linear-gradient(135deg, #1a2a3d 0%, #2d4a6b 40%, #4a7a9e 100%); }
 #winrate-wrap .card-wajima .wr-card-img-wrap { background: linear-gradient(135deg, #1a1410 0%, #2e2218 40%, #4a3a28 100%); }
 #winrate-wrap .card-kimono .wr-card-img-wrap { background: linear-gradient(135deg, #1e1a2d 0%, #362d4a 40%, #5a4a7a 100%); }
-
-/* 商品画像 */
 #winrate-wrap .wr-card-img {
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.75; /* 画像の透明度：0〜1で調整 */
+  opacity: 0.75;
   display: block;
 }
 #winrate-wrap .wr-card-kanji {
@@ -348,19 +369,29 @@
   gap: 3rem;
 }
 #winrate-wrap .wr-value { text-align: center; }
-#winrate-wrap .wr-value-num {
+/* ★ 英語を大きく・日本語を小さく */
+#winrate-wrap .wr-value-en {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   font-weight: 300;
   color: var(--wr-gold);
   line-height: 1;
+  letter-spacing: .04em;
+}
+#winrate-wrap .wr-value-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: .7rem;
+  font-weight: 200;
+  color: rgba(184,154,106,.5);
+  letter-spacing: .15em;
+  margin-top: .4rem;
 }
 #winrate-wrap .wr-value-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.2rem;
   font-weight: 300;
   color: var(--wr-white);
-  margin: .5rem 0 .8rem;
+  margin: .8rem 0 .8rem;
   letter-spacing: .06em;
 }
 #winrate-wrap .wr-value-text {
@@ -450,6 +481,11 @@
   color: var(--wr-white);
 }
 #winrate-wrap .wr-footer-logo span { color: var(--wr-gold); }
+#winrate-wrap .wr-footer-logo-img {
+  height: 32px; /* ロゴ画像の高さ：調整可能 */
+  width: auto;
+  display: block;
+}
 #winrate-wrap .wr-footer-copy {
   font-size: .72rem;
   letter-spacing: .1em;
@@ -473,9 +509,7 @@
   transform: translateY(32px);
   transition: opacity .8s ease, transform .8s ease;
 }
-#winrate-wrap .wr-reveal.wr-visible {
-  opacity: 1; transform: none;
-}
+#winrate-wrap .wr-reveal.wr-visible { opacity: 1; transform: none; }
 #winrate-wrap .wr-d1 { transition-delay: .1s; }
 #winrate-wrap .wr-d2 { transition-delay: .2s; }
 #winrate-wrap .wr-d3 { transition-delay: .3s; }
@@ -503,71 +537,111 @@
 }
 </style>
 
-<div id="winrate-wrap">
+<div id="winrate-wrap" class="lang-en">
 
   <!-- ══════════ HERO ══════════ -->
   <section class="wr-hero">
-    <!-- 背景ベース -->
     <div class="wr-hero-bg"></div>
-    <!--
-      【ヒーロー背景画像】
-      src を WP メディアライブラリの URL に変更してください。
-      画像が不要な場合はこの <img> タグごと削除してください。
-    -->
-    <img
-      class="wr-hero-bg-img"
-      src="https://wannabe0901.github.io/winrate/hero.png"
-      alt=""
-      role="presentation"
-      onerror="this.style.display='none'"
-    />
+    <img class="wr-hero-bg-img" src="https://wannabe0901.github.io/winrate/hero.png" alt="" role="presentation" onerror="this.style.display='none'" />
     <div class="wr-hero-overlay"></div>
     <div class="wr-hero-kanji">和の心</div>
 
     <!-- NAV -->
     <nav class="wr-nav">
-      <a href="#winrate-story" class="wr-nav-logo">Win<span>Rate</span></a>
-      <ul class="wr-nav-links">
-        <li><a href="#winrate-story">Story</a></li>
-        <li><a href="#winrate-products">Products</a></li>
-        <li><a href="#winrate-contact">Contact</a></li>
-      </ul>
+      <!-- ★ ロゴ画像 → src を GitHub の画像URLに変更してください -->
+      <a href="#winrate-story" class="wr-nav-logo">
+        <img
+          class="wr-nav-logo-img"
+          src="YOUR_LOGO_IMAGE_URL_HERE"
+          alt="WinRate"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+        />
+        <!-- 画像が読み込めない場合のテキストフォールバック -->
+        <span class="wr-nav-logo-text">Win<span>Rate</span></span>
+      </a>
+
+      <div class="wr-nav-right">
+        <ul class="wr-nav-links">
+          <!-- EN -->
+          <li><a href="#winrate-story" data-lang-block="en">Story</a></li>
+          <li><a href="#winrate-products" data-lang-block="en">Products</a></li>
+          <li><a href="#winrate-contact" data-lang-block="en">Contact</a></li>
+          <!-- FR -->
+          <li><a href="#winrate-story" data-lang-block="fr">Histoire</a></li>
+          <li><a href="#winrate-products" data-lang-block="fr">Produits</a></li>
+          <li><a href="#winrate-contact" data-lang-block="fr">Contact</a></li>
+        </ul>
+        <!-- ★ 言語切り替えボタン -->
+        <div class="wr-lang-switch">
+          <button class="wr-lang-btn active" onclick="wrSetLang('en', this)">EN</button>
+          <button class="wr-lang-btn" onclick="wrSetLang('fr', this)">FR</button>
+        </div>
+      </div>
     </nav>
 
     <div class="wr-hero-content">
       <p class="wr-eyebrow">Win Rate Co., Ltd. — Tokyo, Japan</p>
       <h2 class="wr-hero-h1">
-        The Finest of<br />
-        <em>Japanese Tradition</em><br />
-        to the World
+        <span data-lang-block="en">The Finest of<br /><em>Japanese Tradition</em><br />to the World</span>
+        <span data-lang-block="fr">Le Meilleur de la<br /><em>Tradition Japonaise</em><br />pour le Monde</span>
       </h2>
       <p class="wr-hero-sub">
-        We curate extraordinary Japanese artisan goods — from ceremonial matcha to handcrafted lacquerware — and bring their timeless stories to discerning customers worldwide.
+        <span data-lang-block="en">We curate extraordinary Japanese artisan goods — from ceremonial matcha to handcrafted lacquerware — and bring their timeless stories to discerning customers worldwide.</span>
+        <span data-lang-block="fr">Nous sélectionnons des articles artisanaux japonais d'exception — du matcha de cérémonie à la laque artisanale — et portons leurs histoires intemporelles aux clients les plus exigeants du monde entier.</span>
       </p>
-      <a href="#winrate-products" class="wr-btn">Discover Our Collections</a>
+      <a href="#winrate-products" class="wr-btn">
+        <span data-lang-block="en">Discover Our Collections</span>
+        <span data-lang-block="fr">Découvrir Nos Collections</span>
+      </a>
     </div>
   </section>
 
   <!-- ══════════ BRAND STORY ══════════ -->
   <section class="wr-section wr-story" id="winrate-story">
     <div class="wr-inner">
-      <p class="wr-label wr-reveal">Our Story</p>
-      <h2 class="wr-title wr-reveal wr-d1">Where Ancient Craft<br />Meets the Modern World</h2>
+      <p class="wr-label wr-reveal">
+        <span data-lang-block="en">Our Story</span>
+        <span data-lang-block="fr">Notre Histoire</span>
+      </p>
+      <h2 class="wr-title wr-reveal wr-d1">
+        <span data-lang-block="en">Where Ancient Craft<br />Meets the Modern World</span>
+        <span data-lang-block="fr">Là où l'Artisanat Ancestral<br />Rencontre le Monde Moderne</span>
+      </h2>
       <div class="wr-story-grid">
         <div class="wr-story-text">
           <div class="wr-divider wr-reveal"></div>
-          <p class="wr-reveal wr-d1">
-            Japan has spent centuries perfecting the art of living beautifully. <strong>Every cup of matcha whisked with care, every lacquered surface polished by a craftsman's hands</strong> — these are not mere products. They are cultural inheritance.
-          </p>
-          <p class="wr-reveal wr-d2">
-            Win Rate was founded on a single conviction: <strong>the world deserves to experience Japan's rarest and finest</strong>. We work directly with producers, artisans, and estates who have dedicated their lives to mastering a single craft.
-          </p>
-          <p class="wr-reveal wr-d3">
-            We do not move volume. We move meaning — carefully selecting goods that carry the spirit of <em>monozukuri</em> (the art of making things) and delivering them to those who truly appreciate the extraordinary.
-          </p>
+
+          <!-- EN -->
+          <div data-lang-block="en">
+            <p class="wr-reveal wr-d1">Japan has spent centuries perfecting the art of living beautifully. <strong>Every cup of matcha whisked with care, every lacquered surface polished by a craftsman's hands</strong> — these are not mere products. They are cultural inheritance.</p>
+            <p class="wr-reveal wr-d2">Win Rate was founded on a single conviction: <strong>the world deserves to experience Japan's rarest and finest</strong>. We work directly with producers, artisans, and estates who have dedicated their lives to mastering a single craft.</p>
+            <p class="wr-reveal wr-d3">We do not move volume. We move meaning — carefully selecting goods that carry the spirit of <em>monozukuri</em> (the art of making things) and delivering them to those who truly appreciate the extraordinary.</p>
+          </div>
+
+          <!-- FR -->
+          <div data-lang-block="fr">
+            <p class="wr-reveal wr-d1">Le Japon a passé des siècles à perfectionner l'art de vivre avec beauté. <strong>Chaque tasse de matcha préparée avec soin, chaque surface laquée polie par les mains d'un artisan</strong> — ce ne sont pas de simples produits. C'est un héritage culturel.</p>
+            <p class="wr-reveal wr-d2">Win Rate a été fondée sur une conviction profonde : <strong>le monde mérite de découvrir ce que le Japon a de plus rare et de plus raffiné</strong>. Nous travaillons directement avec des producteurs et des artisans qui ont consacré leur vie à maîtriser un seul savoir-faire.</p>
+            <p class="wr-reveal wr-d3">Nous ne cherchons pas le volume. Nous cherchons le sens — en sélectionnant avec soin des objets qui incarnent l'esprit du <em>monozukuri</em> (l'art de faire les choses) et en les transmettant à ceux qui savent vraiment apprécier l'extraordinaire.</p>
+          </div>
         </div>
 
-
+        <!-- ★ ストーリービジュアル枠（画像挿入対応） -->
+        <div class="wr-story-visual wr-reveal wr-d2">
+          <div class="wr-story-visual-bg"></div>
+          <!--
+            【ストーリー画像】
+            src を GitHub の画像URLに変更してください。
+            例: src="https://wannabe0901.github.io/winrate/story.PNG"
+          -->
+          <img
+            class="wr-story-img"
+            src="YOUR_STORY_IMAGE_URL_HERE"
+            alt="Japanese craftsmanship"
+            onerror="this.style.display='none'"
+          />
+          <div class="wr-story-border"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -575,26 +649,30 @@
   <!-- ══════════ PRODUCTS ══════════ -->
   <section class="wr-section wr-products" id="winrate-products">
     <div class="wr-inner" style="padding-bottom:0;">
-      <p class="wr-label wr-reveal">Our Collections</p>
-      <h2 class="wr-title wr-reveal wr-d1">Artisan Goods,<br />Thoughtfully Sourced</h2>
+      <p class="wr-label wr-reveal">
+        <span data-lang-block="en">Our Collections</span>
+        <span data-lang-block="fr">Nos Collections</span>
+      </p>
+      <h2 class="wr-title wr-reveal wr-d1">
+        <span data-lang-block="en">Artisan Goods,<br />Thoughtfully Sourced</span>
+        <span data-lang-block="fr">Produits Artisanaux,<br />Soigneusement Sélectionnés</span>
+      </h2>
     </div>
     <div class="wr-products-grid">
 
       <!-- 抹茶 -->
       <div class="wr-card card-matcha wr-reveal">
         <div class="wr-card-img-wrap">
-          <!--
-            【商品画像：抹茶】
-            src を WP メディアライブラリの URL に変更してください。
-            画像なしでもグラデーション背景が表示されます。
-          -->
           <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/macha.PNG" alt="Matcha" onerror="this.style.display='none'" />
         </div>
         <div class="wr-card-kanji">抹茶</div>
         <div class="wr-card-info">
           <div class="wr-card-name">Matcha</div>
           <div class="wr-card-name-jp">抹茶</div>
-          <div class="wr-card-desc">Stone-ground ceremonial matcha from the gardens of Uji and Nishio. A millennium of green tea mastery in every cup.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Stone-ground ceremonial matcha from the gardens of Uji and Nishio. A millennium of green tea mastery in every cup.</span>
+            <span data-lang-block="fr">Matcha de cérémonie broyé à la pierre, des jardins d'Uji et Nishio. Un millénaire de maîtrise du thé vert dans chaque tasse.</span>
+          </div>
         </div>
       </div>
 
@@ -607,7 +685,10 @@
         <div class="wr-card-info">
           <div class="wr-card-name">Japanese Black Tea</div>
           <div class="wr-card-name-jp">和紅茶</div>
-          <div class="wr-card-desc">Japanese black tea — delicate, floral, and unlike anything from the subcontinent. A rare and growing expression of Japanese terroir.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Japanese black tea — delicate, floral, and unlike anything from the subcontinent. A rare and growing expression of Japanese terroir.</span>
+            <span data-lang-block="fr">Thé noir japonais — délicat, floral, sans équivalent sur le sous-continent. Une expression rare et croissante du terroir japonais.</span>
+          </div>
         </div>
       </div>
 
@@ -620,34 +701,46 @@
         <div class="wr-card-info">
           <div class="wr-card-name">Sweet Red Bean Paste</div>
           <div class="wr-card-name-jp">餡子</div>
-          <div class="wr-card-desc">Sweet red bean paste crafted by confectioners who have devoted decades to perfecting the subtle balance of sweetness and texture.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Sweet red bean paste crafted by confectioners who have devoted decades to perfecting the subtle balance of sweetness and texture.</span>
+            <span data-lang-block="fr">Pâte sucrée de haricots rouges élaborée par des confiseurs qui ont consacré des décennies à perfectionner l'équilibre subtil entre douceur et texture.</span>
+          </div>
         </div>
       </div>
 
       <!-- 日本酒 -->
       <div class="wr-card card-sake wr-reveal wr-d3">
         <div class="wr-card-img-wrap">
-          <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/nihonshu.PNG" alt="Nihonshu" onerror="this.style.display='none'" />
+          <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/nihonshu.PNG" alt="Japanese Sake" onerror="this.style.display='none'" />
         </div>
         <div class="wr-card-kanji">日本酒</div>
         <div class="wr-card-info">
           <div class="wr-card-name">Japanese Sake</div>
           <div class="wr-card-name-jp">日本酒</div>
-          <div class="wr-card-desc">Premium sake from storied breweries — junmai daiginjo and beyond. The complexity of Japanese rice, water, and seasons in every pour.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Premium sake from storied breweries — junmai daiginjo and beyond. The complexity of Japanese rice, water, and seasons in every pour.</span>
+            <span data-lang-block="fr">Saké premium de brasseries renommées — junmai daiginjo et au-delà. La complexité du riz, de l'eau et des saisons japonaises dans chaque verre.</span>
+          </div>
         </div>
       </div>
 
       <!-- 輪島塗り -->
       <div class="wr-card card-wajima wr-reveal wr-d4">
         <div class="wr-card-img-wrap">
-          <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/wajima.PNG" alt="Wajima-nuri" onerror="this.style.display='none'" />
+          <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/wajima.PNG" alt="Japanese Lacquerware" onerror="this.style.display='none'" />
         </div>
         <div class="wr-card-kanji">漆器</div>
-        <span class="wr-badge">Coming Soon</span>
+        <span class="wr-badge">
+          <span data-lang-block="en">Coming Soon</span>
+          <span data-lang-block="fr">Bientôt</span>
+        </span>
         <div class="wr-card-info">
           <div class="wr-card-name">Japanese Lacquerware</div>
           <div class="wr-card-name-jp">輪島塗り</div>
-          <div class="wr-card-desc">Among Japan's most celebrated lacquerware traditions — hand-layered urushi lacquer built up over months by Wajima's master craftsmen.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Among Japan's most celebrated lacquerware traditions — hand-layered urushi lacquer built up over months by Wajima's master craftsmen.</span>
+            <span data-lang-block="fr">L'une des traditions de laque les plus célèbres du Japon — urushi appliqué couche par couche sur plusieurs mois par les maîtres artisans de Wajima.</span>
+          </div>
         </div>
       </div>
 
@@ -657,11 +750,17 @@
           <img class="wr-card-img" src="https://wannabe0901.github.io/winrate/kimono.PNG" alt="Kimono" onerror="this.style.display='none'" />
         </div>
         <div class="wr-card-kanji">着物</div>
-        <span class="wr-badge">Coming Soon</span>
+        <span class="wr-badge">
+          <span data-lang-block="en">Coming Soon</span>
+          <span data-lang-block="fr">Bientôt</span>
+        </span>
         <div class="wr-card-info">
           <div class="wr-card-name">Kimono</div>
           <div class="wr-card-name-jp">着物</div>
-          <div class="wr-card-desc">Handwoven and hand-dyed silk kimono from Japan's finest textile regions. Wearable works of art with centuries of woven heritage.</div>
+          <div class="wr-card-desc">
+            <span data-lang-block="en">Handwoven and hand-dyed silk kimono from Japan's finest textile regions. Wearable works of art with centuries of woven heritage.</span>
+            <span data-lang-block="fr">Kimono en soie tissé et teint à la main, issus des meilleures régions textiles du Japon. Des œuvres d'art portables avec des siècles de patrimoine tissé.</span>
+          </div>
         </div>
       </div>
 
@@ -671,21 +770,47 @@
   <!-- ══════════ VALUES ══════════ -->
   <section class="wr-section wr-values">
     <div class="wr-values-inner">
+
       <div class="wr-value wr-reveal">
-        <div class="wr-value-num">直接</div>
-        <div class="wr-value-title">Direct Sourcing</div>
-        <p class="wr-value-text">We build relationships with craftspeople and producers directly — ensuring provenance, quality, and fair partnership with the makers.</p>
+        <!-- ★ 英語大きく・日本語小さく -->
+        <div class="wr-value-en">Direct Sourcing</div>
+        <div class="wr-value-jp">直接調達</div>
+        <div class="wr-value-title">
+          <span data-lang-block="en">Direct Sourcing</span>
+          <span data-lang-block="fr">Approvisionnement Direct</span>
+        </div>
+        <p class="wr-value-text">
+          <span data-lang-block="en">We build relationships with craftspeople and producers directly — ensuring provenance, quality, and fair partnership with the makers.</span>
+          <span data-lang-block="fr">Nous nouons des relations directes avec les artisans et les producteurs — garantissant la provenance, la qualité et un partenariat équitable.</span>
+        </p>
       </div>
+
       <div class="wr-value wr-reveal wr-d2">
-        <div class="wr-value-num">本物</div>
-        <div class="wr-value-title">Authentic Only</div>
-        <p class="wr-value-text">Every item we carry is the genuine article. No compromises, no substitutes. If it doesn't meet our standard of authenticity, it doesn't ship.</p>
+        <div class="wr-value-en">Authentic Only</div>
+        <div class="wr-value-jp">本物のみ</div>
+        <div class="wr-value-title">
+          <span data-lang-block="en">Authentic Only</span>
+          <span data-lang-block="fr">Authenticité Absolue</span>
+        </div>
+        <p class="wr-value-text">
+          <span data-lang-block="en">Every item we carry is the genuine article. No compromises, no substitutes. If it doesn't meet our standard of authenticity, it doesn't ship.</span>
+          <span data-lang-block="fr">Chaque article que nous proposons est authentique. Sans compromis, sans substitut. S'il ne répond pas à nos exigences d'authenticité, il ne part pas.</span>
+        </p>
       </div>
+
       <div class="wr-value wr-reveal wr-d4">
-        <div class="wr-value-num">文化</div>
-        <div class="wr-value-title">Culture First</div>
-        <p class="wr-value-text">We see ourselves as cultural ambassadors first, traders second. Each product ships with its story — the region, the maker, the tradition.</p>
+        <div class="wr-value-en">Culture First</div>
+        <div class="wr-value-jp">文化が先</div>
+        <div class="wr-value-title">
+          <span data-lang-block="en">Culture First</span>
+          <span data-lang-block="fr">La Culture Avant Tout</span>
+        </div>
+        <p class="wr-value-text">
+          <span data-lang-block="en">We see ourselves as cultural ambassadors first, traders second. Each product ships with its story — the region, the maker, the tradition.</span>
+          <span data-lang-block="fr">Nous nous considérons d'abord comme des ambassadeurs culturels, ensuite comme des commerçants. Chaque produit est livré avec son histoire — la région, l'artisan, la tradition.</span>
+        </p>
       </div>
+
     </div>
   </section>
 
@@ -693,20 +818,33 @@
   <section class="wr-section wr-contact" id="winrate-contact">
     <div class="wr-inner">
       <p class="wr-label wr-reveal">Contact</p>
-      <h2 class="wr-title wr-reveal wr-d1">Begin a Conversation</h2>
+      <h2 class="wr-title wr-reveal wr-d1">
+        <span data-lang-block="en">Begin a Conversation</span>
+        <span data-lang-block="fr">Commençons une Conversation</span>
+      </h2>
       <div class="wr-contact-grid">
         <div>
           <div class="wr-divider wr-reveal"></div>
           <div class="wr-contact-info">
-            <p class="wr-reveal wr-d1">Whether you are a retailer, distributor, or individual collector, we welcome enquiries from around the world. Our team responds in English and Japanese.</p>
+            <p class="wr-reveal wr-d1">
+              <span data-lang-block="en">Whether you are a retailer, distributor, or individual collector, we welcome enquiries from around the world. Our team responds in English and Japanese.</span>
+              <span data-lang-block="fr">Que vous soyez détaillant, distributeur ou collectionneur particulier, nous accueillons les demandes du monde entier. Notre équipe répond en anglais et en japonais.</span>
+            </p>
           </div>
           <div class="wr-contact-detail wr-reveal wr-d2">
             <div class="wr-contact-row">
-              <span class="wr-contact-lbl">Company</span>
-              <span class="wr-contact-val">Win Rate Co., Ltd. / 株式会社Win Rate</span>
+              <span class="wr-contact-lbl">
+                <span data-lang-block="en">Company</span>
+                <span data-lang-block="fr">Société</span>
+              </span>
+              <!-- ★ 株式会社WinRate → WinRate株式会社に変更 -->
+              <span class="wr-contact-val">Win Rate Co., Ltd. / WinRate株式会社</span>
             </div>
             <div class="wr-contact-row">
-              <span class="wr-contact-lbl">Location</span>
+              <span class="wr-contact-lbl">
+                <span data-lang-block="en">Location</span>
+                <span data-lang-block="fr">Lieu</span>
+              </span>
               <span class="wr-contact-val">Tokyo, Japan</span>
             </div>
             <div class="wr-contact-row">
@@ -714,29 +852,44 @@
               <span class="wr-contact-val">info@winrate.co.jp</span>
             </div>
             <div class="wr-contact-row">
-              <span class="wr-contact-lbl">Lang</span>
+              <span class="wr-contact-lbl">
+                <span data-lang-block="en">Lang</span>
+                <span data-lang-block="fr">Langue</span>
+              </span>
               <span class="wr-contact-val">English &amp; 日本語</span>
             </div>
           </div>
         </div>
         <div class="wr-form wr-reveal wr-d2">
           <div class="wr-form-group">
-            <label class="wr-form-label">Your Name</label>
+            <label class="wr-form-label">
+              <span data-lang-block="en">Your Name</span>
+              <span data-lang-block="fr">Votre Nom</span>
+            </label>
             <input class="wr-form-input" type="text" placeholder="John Smith" />
           </div>
           <div class="wr-form-group">
-            <label class="wr-form-label">Email Address</label>
+            <label class="wr-form-label">
+              <span data-lang-block="en">Email Address</span>
+              <span data-lang-block="fr">Adresse Email</span>
+            </label>
             <input class="wr-form-input" type="email" placeholder="john@example.com" />
           </div>
           <div class="wr-form-group">
-            <label class="wr-form-label">Company / Organisation</label>
+            <label class="wr-form-label">
+              <span data-lang-block="en">Company / Organisation</span>
+              <span data-lang-block="fr">Société / Organisation</span>
+            </label>
             <input class="wr-form-input" type="text" placeholder="Optional" />
           </div>
           <div class="wr-form-group">
             <label class="wr-form-label">Message</label>
             <textarea class="wr-form-textarea" placeholder="Tell us about your interest…"></textarea>
           </div>
-          <button type="button" class="wr-btn-submit" onclick="wrHandleSubmit(this)">Send Enquiry</button>
+          <button type="button" class="wr-btn-submit" onclick="wrHandleSubmit(this)">
+            <span data-lang-block="en">Send Enquiry</span>
+            <span data-lang-block="fr">Envoyer</span>
+          </button>
         </div>
       </div>
     </div>
@@ -744,8 +897,22 @@
 
   <!-- ══════════ FOOTER ══════════ -->
   <footer class="wr-footer">
-    <div class="wr-footer-logo">Win<span>Rate</span></div>
-    <p class="wr-footer-jp">株式会社 Win Rate</p>
+    <!--
+      【フッターロゴ画像】
+      src を GitHub の画像URLに変更してください。
+      画像を設定すると下のテキスト「WinRate」は自動で非表示になります。
+    -->
+    <div class="wr-footer-logo">
+      <img
+        class="wr-footer-logo-img"
+        src="YOUR_FOOTER_LOGO_IMAGE_URL_HERE"
+        alt="WinRate"
+        onerror="this.style.display='none'; document.getElementById('wr-footer-logo-text').style.display='inline';"
+        onload="document.getElementById('wr-footer-logo-text').style.display='none';"
+      />
+      <span id="wr-footer-logo-text">Win<span>Rate</span></span>
+    </div>
+    <p class="wr-footer-jp">WinRate株式会社</p>
     <p class="wr-footer-copy">&copy; 2025 Win Rate Co., Ltd. All rights reserved.</p>
   </footer>
 
@@ -753,10 +920,8 @@
 
 <script>
 (function() {
-  // スクロールリビール（WPの他スクリプトと衝突しないようIIFEで囲む）
   var reveals = document.querySelectorAll('#winrate-wrap .wr-reveal');
   if (!reveals.length) return;
-
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
       if (e.isIntersecting) {
@@ -765,9 +930,18 @@
       }
     });
   }, { threshold: 0.12 });
-
   reveals.forEach(function(el) { observer.observe(el); });
 })();
+
+function wrSetLang(lang, btn) {
+  var wrap = document.getElementById('winrate-wrap');
+  wrap.classList.remove('lang-en', 'lang-fr');
+  wrap.classList.add('lang-' + lang);
+  document.querySelectorAll('#winrate-wrap .wr-lang-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+}
 
 function wrHandleSubmit(btn) {
   btn.textContent = 'Sent — Thank you';
